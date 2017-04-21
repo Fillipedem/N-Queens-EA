@@ -3,7 +3,6 @@ from random import randint
 
 class EA:
     num_parents = 2
-    mutation_prob = 0.0001
 
     def __init__(self, kind, pop_size, num_childs, rec_prob, mut_prob):
         # represeting the individuals
