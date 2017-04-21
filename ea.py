@@ -1,10 +1,11 @@
 # Class for Evolutionary Algorithm
+from random import randint
 
 class EA:
     num_parents = 2
     mutation_prob = 0.0001
 
-    def __init__(self, kind, pop_size):
+    def __init__(self, kind, pop_size, num_childs, rec_prob, mut_prob):
         # represeting the individuals
         self.population = []
         self.parents = []
@@ -15,6 +16,9 @@ class EA:
 
         # population details
         self.pop_size = pop_size
+        self.num_childs = num_childs
+        self.rec_prob = rec_prob
+        self.mut_prob = mut_prob
 
     ##
     ## Evolutionary Algorithm phases
@@ -94,22 +98,36 @@ class EA:
         first = self.parents[0]
         second = self.parents[1]
 
-        for i in range(self.pop_size):
+        for i in range(self.num_childs):
             new_son = self.kind.recombination(first, second)
 
             self.offspring.append(new_son)
+
+        # adding population
+        for c in self.population:
+            self.offspring.append(c)
+
 
     def __mutation(self):
         """
         mutate an element of the offspring
         """
         for i in range(len(self.offspring)):
-            pass
+            r = randint(0, 9)
+
+            if (r < self.mut_prob):
+                self.offspring[i].mutation()
 
     def __survivor_selector(self):
+        """
+        remove the lowest element in population
+        """
         new_pop = []
 
-        for i in self.offspring:
-            new_pop.append(i)
+        # sorted offspring by fitness
+        sorted(self.offspring, key=lambda x: x.fitness(), reverse=True)
+
+        for i in range(self.pop_size):
+            new_pop.append(self.offspring[i])
 
         self.population = new_pop

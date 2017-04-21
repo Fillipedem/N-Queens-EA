@@ -64,7 +64,7 @@ class Queens(Individual):
 		son = Queens([])
 
 		# choose random point for crossover
-		crossover_point = randint(0, first.num_queens - 1)
+		crossover_point = randint(1, first.num_queens - 2)
 
 		# copy the first parent
 		for i in range(0, crossover_point):
