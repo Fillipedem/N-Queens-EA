@@ -1,48 +1,47 @@
+## Plot Libraries
+import matplotlib.pyplot as plt
+import numpy as np
+## EV 
 from queens import Queens
 from ea import EA
 from backtracking import NQueens
 from survivalselection import SurvivalFittest
 from parentselection import BestParents
-
+## statistic
 import helper
-import sys
 
-sys.stdout = open('test', 'w')
 
-def printa(ea):
-	print("\n\n")
-	print("Geração: ")
-	print("Population ", ea.population)
-	print("Parents: ", ea.parents)
+## main interface ##
 
-f = open('test', 'w')
 
-# population types
-pop_size = 10
-num_childs = 2
-rec_prob = 0.9
-mut_prob = 0.2
+# EV algorithm params
+params = {'repres' : Queens, 'p_selection' : BestParents, 's_selection' : SurvivalFittest,
+		'pop_size' : 20, 'num_childs' : 2, 'rec_prob' : 0.9, 'mut_prob' : 0.2}
 
-# ev type
-repre = Queens
-s_selection = SurvivalFittest
-p_selection = BestParents
+max_iter = 100
+min_fitness = 0.9
+data_ite = 10
 
-ea = EA(repre, p_selection, s_selection, pop_size, num_childs, rec_prob, mut_prob)
 
+# initialise evolutionaru algorithm class
+ea = EA(**params)
+
+# initialise population
 ea.initialise()
-printa(ea)
 
-for i in range(6):
-	ea.run()
-	printa(ea)
+# search
+data = ea.search(max_iter, min_fitness, data_ite)
 
+## Plot results ##
+plt.plot(data[0], data[1], label='Media')
+plt.plot(data[0], data[2], label='Standard Variation')
+plt.plot(data[0], data[3], label='Variance')
 
+plt.xlabel('Iteration')
+plt.ylabel('Fitness')
 
-"""
-ea.search(2000, 1)
-print("Search")
-print(helper.med(ea.population), helper.dev(ea.population), helper.var(ea.population))
+plt.title("NQueens EV")
 
-printa(ea)
-"""
+plt.legend()
+
+plt.show()
