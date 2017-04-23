@@ -7,7 +7,7 @@ class SurvivalSelection:
         pass
 
     @staticmethod
-    def select_survivor(offpsring = [], num_survival):
+    def select_survivals(offspring, num_population):
         pass
 
 
@@ -18,7 +18,7 @@ class SurvivalFittest(SurvivalSelection):
 
 
     @staticmethod
-    def select_survivor(offpsring, num_survival):
+    def select_survivals(offspring, num_population):
         """
         remove the lowest element in population
         """
@@ -27,7 +27,7 @@ class SurvivalFittest(SurvivalSelection):
         # sorted offspring by highest fitness
         sorted(offspring, key=lambda x: x.fitness(), reverse=True)
 
-        for i in range(num_survival):
+        for i in range(num_population):
             new_pop.append(offspring[i])
 
         return new_pop

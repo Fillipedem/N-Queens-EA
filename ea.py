@@ -1,17 +1,22 @@
 # Class for Evolutionary Algorithm
 from random import randint
 
+
 class EA:
     num_parents = 2
 
-    def __init__(self, kind, pop_size, num_childs, rec_prob, mut_prob):
+    def __init__(self, repres, p_selection, s_selection,
+                pop_size = 5, num_childs = 2, rec_prob = 0.9, mut_prob = 0.2):
+
         # represeting the individuals
         self.population = []
         self.parents = []
         self.offspring = []
 
-        # type of evolutionary algorithm
-        self.kind = kind
+        # type of the evolutionary algorithm
+        self.representation = repres
+        self.p_selection = p_selection
+        self.s_selection = s_selection
 
         # population details
         self.pop_size = pop_size
@@ -30,7 +35,7 @@ class EA:
 
         # random generate initial population
         for i in range(0, self.pop_size):
-            new = self.kind.random()
+            new = self.representation.random()
             self.population.append(new)
 
     def run(self):
@@ -74,17 +79,7 @@ class EA:
         """
         select new parents from population
         """
-        self.parents = []
-
-        ## adding parents with the highest fitness
-        for i in range(len(self.population)):
-            if len(self.parents) < self.num_parents:
-                self.parents.append(self.population[i])
-            else:
-                for j in range(len(self.parents)):
-                    if self.population[i].fitness() > self.parents[j].fitness():
-                        self.parents[j] = self.population[i]
-                        break
+        self.parents = self.p_selection.select_parents(self.population, self.num_parents)
 
 
     def __recombination(self):
@@ -98,7 +93,7 @@ class EA:
         second = self.parents[1]
 
         for i in range(self.num_childs):
-            new_son = self.kind.recombination(first, second)
+            new_son = self.representation.recombination(first, second)
 
             self.offspring.append(new_son)
 
@@ -121,12 +116,7 @@ class EA:
         """
         remove the lowest element in population
         """
-        new_pop = []
-
-        # sorted offspring by fitness
-        sorted(self.offspring, key=lambda x: x.fitness(), reverse=True)
-
-        for i in range(self.pop_size):
-            new_pop.append(self.offspring[i])
+        new_pop = self.s_selection.select_survivals(self.offspring, self.pop_size)
 
         self.population = new_pop
+
