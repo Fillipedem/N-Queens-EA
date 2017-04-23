@@ -1,6 +1,6 @@
 # Class for Evolutionary Algorithm
 from random import randint
-
+import helper 
 
 class EA:
     num_parents = 2
@@ -55,24 +55,58 @@ class EA:
         # survivor selection
         self.__survivor_selector();
 
-    def search(self, max_iter, min_fitness):
+    def search(self, max_iter, min_fitness, save_ite):
         """
         runs the evolutonary algorithm
         with max_iter and min_fitness as a "stop criter"
+        
+        returns the list of tuples (num_ite, [populaton_data])
         """
         num_ite = 0
+        data_ite = 0
+        m, s, v = self.get_population_data()
+        data = ([num_ite], [m], [s], [v])
+
 
         for i in range(max_iter):
             num_ite = num_ite + 1
+            data_ite = data_ite + 1
 
-            pop_fitness = map(lambda x: x.fitness(), self.population)
+            pop_fitness = helper.med(self.population)
 
-            if max(pop_fitness) > min_fitness: # check if we get the min_fitness
+            if pop_fitness > min_fitness: # check if we get the min_fitness
+                m, s, v = self.get_population_data()
+
+                data[1].append(m)
+                data[2].append(s)
+                data[3].append(v)
+                data[0].append(num_ite)
                 break
             else:
                 self.run()
 
-        return num_ite
+            # check with we add data to the ans
+            if data_ite == save_ite:
+                m, s, v = self.get_population_data()
+
+                data[1].append(m)
+                data[2].append(s)
+                data[3].append(v)
+                data[0].append(num_ite)
+
+                data_ite = 0
+
+
+
+        return data
+
+    def get_population_data(self):
+        """
+        return de media, standard deviation and variance of the actual population
+        """
+        data = helper.med(self.population), helper.dev(self.population), helper.var(self.population)
+
+        return data
 
     # ea componentes
     def __parent_selection(self):

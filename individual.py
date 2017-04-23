@@ -21,3 +21,5 @@ class Individual:
     @staticmethod
     def random():
         pass
+
+

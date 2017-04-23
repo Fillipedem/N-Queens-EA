@@ -16,7 +16,6 @@ class SurvivalFittest(SurvivalSelection):
     def __init__():
         pass
 
-
     @staticmethod
     def select_survivals(offspring, num_population):
         """
