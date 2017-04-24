@@ -37,3 +37,22 @@ class BestParents(ParentSelection):
                         break
 
         return new_parents
+
+
+class Tournament(ParentSelection):
+
+    def __init__():
+        pass
+
+    @staticmethod
+    def select_parents(population, num_parents = 2):
+        pass
+
+class Ranking(ParentSelection):
+
+    def __init__():
+        pass
+
+    @staticmethod
+    def select_parents(population, num_parents = 2):
+        pass

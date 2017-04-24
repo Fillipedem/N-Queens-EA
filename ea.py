@@ -96,8 +96,6 @@ class EA:
 
                 data_ite = 0
 
-
-
         return data
 
     def get_population_data(self):
@@ -145,6 +143,7 @@ class EA:
 
             if (r < self.mut_prob):
                 self.offspring[i].mutation()
+
 
     def __survivor_selector(self):
         """

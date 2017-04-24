@@ -14,12 +14,12 @@ class Individual:
     def phenotype(self):
     	pass
 
-    @staticmethod
-    def recombination(self, parent):
+    @classmethod
+    def recombination(cls, first, second):
         pass
 
-    @staticmethod
-    def random():
+    @classmethod
+    def random(cls):
         pass
 
 

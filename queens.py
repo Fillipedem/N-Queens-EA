@@ -4,96 +4,84 @@ from individual import Individual
 from random import randint
 from random import shuffle
 
+#
+from permutations import Permutation
+
 class Queens(Individual):
-	num_queens = 8
+    num_queens = 8
+    mutate = Permutation.swap_mutation
+    crossover = Permutation.one_point_crossover
 
-	def __init__(self, genotype = []):
-		self.genotype = genotype
+    def __init__(self, genotype = []):
+        self.genotype = genotype
 
-	def fitness(self):
-		"""
-			return a double
-			representing the fitness of the phenotype
-		"""
-		ans = 0
+    def fitness(self):
+        """
+        return a double
+        representing the fitness of the phenotype
+        """
+        ans = 0
 
-		# check
-		for i in range(0, self.num_queens):
-			for j in range(0, self.num_queens):
+        # check
+        for i in range(0, self.num_queens):
+            for j in range(0, self.num_queens):
 
-				# check for each previous queen
-				if i != j and abs(i - j) == abs(self.genotype[i] - self.genotype[j]):
-					ans = ans + 1 
+                # check for each previous queen
+                if i != j and abs(i - j) == abs(self.genotype[i] - self.genotype[j]):
+                    ans = ans + 1 
 
-		# return fitness value
-		return  1 / (ans + 1)
+        # return fitness value
+        return  1 / (ans + 1)
 
-	def mutation(self):
-		"""
-		realize mutation in the genotypeo
-		"""
+    def mutation(self):
+        """
+        makes mutatation in the genotype
+        """
+        Permutation.swap_mutation(self.genotype)
 
-		# random select to places and swap
-		gen1 = randint(0, self.num_queens - 1)
-		gen2 = gen1
 
-		# genotypeerate random number differente from previous one
-		while gen1 == gen2:
-			gen2 = randint(0, self.num_queens - 1)
+    def phenotype(self):
+        """
+        return the phenotype of the individual
+        """
 
-		# swap elements
-		self.genotype[gen1], self.genotype[gen2] = self.genotype[gen2], self.genotype[gen1]
+        return self.genotype
 
-	def phenotype(self):
-		"""
-		return the phenotype of the individual
-		"""
+    #
+    ## static or class methods
+    #
 
-		return self.genotype
+    @classmethod
+    def recombination(cls, first, second):
+        """ 
+        giving two parents as argument
+        return a new parent with genotypes of both parents
+        """
+        new_geno = cls.crossover(first.genotype, second.genotype)
 
-	#
-	## static or class methods
-	#
+        return Queens(new_geno)
 
-	@staticmethod
-	def recombination(first, second):
-		""" 
-		giving two parents as argument
-		return a new parent with genotypes of both parents
-		"""
-		son = Queens([])
+    @classmethod
+    def random(cls):
+        geno = list(range(1, cls.num_queens + 1))
+        shuffle(geno)
 
-		# choose random point for crossover
-		crossover_point = randint(1, first.num_queens - 2)
+        return Queens(geno)
 
-		# copy the first parent
-		for i in range(0, crossover_point):
-			geno = first.genotype[i]
+    #
+    ## change the mutation and recombination methods
+    #
+    def set_new_mutation(mutate):
+        self.mutate = mutate
 
-			son.genotype.append(geno)
+    def set_new_recombination(crossover):
+  	   self.crossover = crossover
 
-		# move the rest of the second parent to the son
-		for j in range(0, second.num_queens):
-			geno = second.genotype[j]
+    #
+    ## print methods
+    #
+    def  __repr__(self):
+        return "Queens Obj: " + str(self.genotype)
 
-			if geno not in son.genotype:
-				son.genotype.append(geno)
-
-		return son
-
-	@classmethod
-	def random(cls):
-		geno = list(range(1, cls.num_queens + 1))
-		shuffle(geno)
-
-		return Queens(geno)
-
-	#
-	## print methods
-	#
-
-	def  __repr__(self):
-		return "Queens Obj: " + str(self.genotype)
-
-	def __str__(self):
-		return str(self.genotype)
+    def __str__(self):
+        return str(self.genotype)

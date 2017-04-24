@@ -1,5 +1,7 @@
 from statistics import variance, stdev, mean
-
+## Plot Libraries
+import matplotlib.pyplot as plt
+import numpy as np
 
 def med(population):
 	"""
@@ -36,3 +38,21 @@ def var(population):
 		m.append(c.fitness())
 
 	return variance(m)
+
+
+def plot(data, title):
+    """
+	plot results from a EV algorithm search
+    """
+    plt.plot(data[0], data[1], label='Media')
+    plt.plot(data[0], data[2], label='Standard Variation')
+    plt.plot(data[0], data[3], label='Variance')
+
+    plt.xlabel('Iteration')
+    plt.ylabel('Fitness')
+
+    plt.title(title)
+
+    plt.legend("Teste")
+
+    plt.show()
