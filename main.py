@@ -2,7 +2,7 @@
 from queens import Queens
 from ea import EA
 from backtracking import NQueens
-from survivalselection import ReplaceWorst, AgeBased
+from survivalselection import ReplaceWorst, ReplaceAge, ReplaceFittest
 from parentselection import BestParents, Tournament, Ranking, FittestBased
 from permutations import Permutation
 ## statistic
@@ -10,15 +10,13 @@ import helper
 ## PyQT5
 import sys
 
-
 # EV algorithm params
 params = {'repres' : Queens, 'p_selection' : FittestBased, 's_selection' : ReplaceWorst,
         'pop_size' : 20, 'num_childs' : 2, 'rec_prob' : 0.9, 'mut_prob' : 0.05, 'duplicate' : False}
 
-max_iter = 1000
-min_fitness = 1.0
-data_ite = 10
-
+max_iter = 300
+min_fitness = 0.4
+data_ite = 1
 
 # initialise evolutionaru algorithm class
 ea = EA(**params)
@@ -32,6 +30,7 @@ data = ea.search(max_iter, min_fitness, data_ite)
 # plot
 helper.plot(data, "Simple GA")
 
+ea.population.sort(key=lambda x: x.fitness(), reverse=True)
 print(ea.population)
 for i in ea.population:
 	print(i.fitness(), end=" ")

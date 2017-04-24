@@ -4,7 +4,7 @@ class Individual:
 
     def __init__(self):
         self.genotype = None
-
+    
     def fitness(self):
         pass
 

@@ -5,8 +5,9 @@ import helper
 class EA:
     num_parents = 2
 
-    def __init__(self, repres, p_selection, s_selection,
-                pop_size = 5, num_childs = 2, rec_prob = 0.9, mut_prob = 0.2, duplicate = False):
+    def __init__(self, repres, p_selection, s_selection, 
+                pop_size = 5, num_childs = 2, rec_prob = 0.9, 
+                mut_prob = 0.2, duplicate = False):
 
         # represeting the individuals
         self.population = []
@@ -121,10 +122,6 @@ class EA:
         """
         self.offspring = []
 
-        # adding population to offpsring
-        for c in self.population:
-            self.offspring.append(c)
-
         # parents
         first = self.parents[0]
         second = self.parents[1]
@@ -134,11 +131,11 @@ class EA:
             child, second_child = self.representation.recombination(first, second)
 
             ## element is add only and only if its not present
-            if child not in self.offspring or self.duplicate:
+            if child not in self.population or self.duplicate:
                 self.offspring.append(child)
 
             # second child
-            if second_child not in self.offspring or self.duplicate:
+            if (second_child not in self.population and child != second_child) or self.duplicate:
                 self.offspring.append(second_child)
 
 
@@ -146,21 +143,21 @@ class EA:
         """
         mutate an element of the offspring
         """
-        for i in range(len(self.offspring)):
+        for i in range(len(self.population)):
             r = random.uniform(0, 1)
 
             if r < self.mut_prob:
-                new_mutate = self.offspring[i].mutation()
+                new_mutate = self.population[i].mutation()
 
-                if new_mutate not in self.offspring or self.duplicate:
-                    self.offspring[i] = new_mutate
+                if new_mutate not in self.population or self.duplicate:
+                    self.population[i] = new_mutate
 
 
     def __survivor_selector(self):
         """
         remove the lowest element in population
         """
-        new_pop = self.s_selection.select_survivals(self.offspring, self.pop_size)
+        new_pop = self.s_selection.select_survivals(self.population, self.offspring, self.parents)
 
         self.population = new_pop
 
