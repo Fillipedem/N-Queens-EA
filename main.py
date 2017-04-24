@@ -12,7 +12,7 @@ import sys
 
 # EV algorithm params
 elitism = 2
-max_iter = 10000
+max_iter = 1000
 min_fitness = 0.9
 data_ite = 1
 

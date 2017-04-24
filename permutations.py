@@ -2,6 +2,7 @@
 class for operator in permutations representations 
 """
 from random import randint
+from random import shuffle
 
 class Permutation():
 
@@ -11,6 +12,7 @@ class Permutation():
     ## mutation operators
     @staticmethod
     def swap_mutation(genotype):
+        # search two points to swap
         new_gen = genotype.copy()
 
         gen1 = randint(0, len(new_gen) - 1)
@@ -27,7 +29,32 @@ class Permutation():
 
     @staticmethod
     def scramble_mutation(genotype):
-        pass
+
+        # search the two points for scramble
+        gen1 = randint(0, len(new_gen) - 1)
+        gen2 = gen1
+
+        # genotypeerate random number differente from previous one
+        while gen1 == gen2:
+            gen2 = randint(0, len(new_gen) - 1)
+
+        tmp = []
+        gen1, gen2 = min(gen1, gen2), max(gen1, gen2)
+        for i in range(gen1, gen2):
+            tmp.append(genotype[i])
+
+
+        shuffle(tmp)
+
+        new_geno = []
+        for i in range(len(genotype)):
+            if i in range(gen1, gen2):
+                new_geno.append(tmp[i])
+            else:
+                new_geno.append(genotype[i])
+
+
+        return new_geno
 
     @staticmethod
     def inverse_mutation(genotype):
