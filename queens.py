@@ -33,7 +33,7 @@ class Queens(Individual):
                     ans = ans + 1 
 
         # return fitness value
-        return  (1 / (ans + 1))**0.5
+        return  1 / (ans + 1)
 
     def mutation(self):
         """
@@ -60,9 +60,9 @@ class Queens(Individual):
         giving two parents as argument
         return a new parent with genotypes of both parents
         """
-        new_geno = cls.crossover(first.genotype, second.genotype)
+        child1, child2 = cls.crossover(first.genotype, second.genotype)
 
-        return Queens(new_geno)
+        return Queens(child1), Queens(child2)
 
     @classmethod
     def random(cls):
@@ -74,11 +74,13 @@ class Queens(Individual):
     #
     ## change the mutation and recombination methods
     #
-    def set_new_mutation(mutate):
-        self.mutate = mutate
-
-    def set_new_recombination(crossover):
-  	   self.crossover = crossover
+    @classmethod
+    def set_new_mutation(cls, mutate):
+        cls.mutate = mutate
+    
+    @classmethod
+    def set_new_recombination(cls, crossover):
+  	   cls.crossover = crossover
 
     #
     ## print methods
@@ -93,7 +95,6 @@ class Queens(Individual):
     #
     ## default operator
     #
-
     def __eq__(self, other):
         """Override the default Equals behavior"""
         if isinstance(other, self.__class__):

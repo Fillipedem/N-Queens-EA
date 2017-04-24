@@ -1,12 +1,12 @@
 # Class for Evolutionary Algorithm
-from random import randint
+import random
 import helper 
 
 class EA:
     num_parents = 2
 
     def __init__(self, repres, p_selection, s_selection,
-                pop_size = 5, num_childs = 2, rec_prob = 0.9, mut_prob = 0.2):
+                pop_size = 5, num_childs = 2, rec_prob = 0.9, mut_prob = 0.2, duplicate = False):
 
         # represeting the individuals
         self.population = []
@@ -23,6 +23,7 @@ class EA:
         self.num_childs = num_childs
         self.rec_prob = rec_prob
         self.mut_prob = mut_prob
+        self.duplicate = duplicate
 
     ##
     ## Evolutionary Algorithm phases
@@ -120,20 +121,25 @@ class EA:
         """
         self.offspring = []
 
+        # adding population to offpsring
+        for c in self.population:
+            self.offspring.append(c)
+
         # parents
         first = self.parents[0]
         second = self.parents[1]
 
         for i in range(self.num_childs):
-            new_son = self.representation.recombination(first, second)
+            # get list of new sons
+            child, second_child = self.representation.recombination(first, second)
 
             ## element is add only and only if its not present
-            if new_son not in self.population:
-                self.offspring.append(new_son)
+            if child not in self.offspring or self.duplicate:
+                self.offspring.append(child)
 
-        # adding population
-        for c in self.population:
-            self.offspring.append(c)
+            # second child
+            if second_child not in self.offspring or self.duplicate:
+                self.offspring.append(second_child)
 
 
     def __mutation(self):
@@ -141,15 +147,13 @@ class EA:
         mutate an element of the offspring
         """
         for i in range(len(self.offspring)):
-            r = randint(0, 9)
+            r = random.uniform(0, 1)
 
             if r < self.mut_prob:
-                if self.offspring[i].fitness() < 1:                    
-                    
-                    new_mutate = self.offspring[i].mutation()
+                new_mutate = self.offspring[i].mutation()
 
-                    if new_mutate not in self.offspring:
-                        self.offspring.append(new_mutate)
+                if new_mutate not in self.offspring or self.duplicate:
+                    self.offspring[i] = new_mutate
 
 
     def __survivor_selector(self):

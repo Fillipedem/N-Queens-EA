@@ -34,26 +34,23 @@ class Permutation():
         """
         swap every element of the geno in place
         """
-        new_geno = genotype.copy()
-
-        for i in range(lenght / 2):
-            new_geno[i], new_geno[len(new_geno) - i - 1] = new_geno[len(new_geno) - i - 1], new_geno[i]
-
-        return new_geno
+        
+        return genotype[::-1]
 
     ## recombination operators
     @staticmethod
     def one_point_crossover(genotype1 = [], genotype2 = []):
         child = []
+        second_child = []
 
         # choose random point for crossover
         crossover_point = randint(1, len(genotype1) - 2)
 
         # copy the first parent
         for i in range(0, crossover_point):
-            geno = genotype1[i]
 
-            child.append(geno)
+            child.append(genotype1[i])
+            second_child.append(genotype2[i])
 
         # move the rest of the second parent to the child
         for j in range(0, len(genotype2)):
@@ -62,7 +59,12 @@ class Permutation():
             if geno not in child:
                 child.append(geno)
 
-        return child
+            geno = genotype1[j]
+
+            if geno not in second_child:
+                second_child.append(geno)
+
+        return child, second_child
 
     @staticmethod
     def n_point_crossover(genotype1 = [], genotype2 = [], n = 2):

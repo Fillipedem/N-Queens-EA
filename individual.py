@@ -22,4 +22,7 @@ class Individual:
     def random(cls):
         pass
 
+    ## Operator eq
+    def __eq__(self, other):
+        pass
 

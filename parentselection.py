@@ -1,3 +1,4 @@
+from random import uniform
 
 
 class ParentSelection:
@@ -8,7 +9,6 @@ class ParentSelection:
     @staticmethod
     def select_parents(population, num_parents):
         pass
-
 
 
 class BestParents(ParentSelection):
@@ -38,6 +38,44 @@ class BestParents(ParentSelection):
 
         return new_parents
 
+class FittestBased(ParentSelection):
+
+    def __init__():
+        pass
+
+    @staticmethod
+    def select_parents(population, num_parents = 2):
+        new_parents = []
+
+        ## create fitness list
+        fitness = []
+        total = 0
+
+        for p in population:
+            f = p.fitness()
+
+            fitness.append(f)
+            total += f
+
+        # adjust
+        for i in range(len(fitness)):
+            fitness[i] = fitness[i]/total
+
+            if i > 0:
+                fitness[i] += fitness[i - 1]
+
+        # wheel - search new parents
+        for i in range(num_parents):
+            
+            r = uniform(0, 1)
+            p = 0
+            
+            while fitness[p] < r:
+                p = p + 1
+            
+            new_parents.append(population[p])
+
+        return new_parents
 
 class Tournament(ParentSelection):
 
