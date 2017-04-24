@@ -11,11 +11,11 @@ import sys
 
 # EV algorithm params
 params = {'repres' : Queens, 'p_selection' : BestParents, 's_selection' : ReplaceWorst,
-        'pop_size' : 10, 'num_childs' : 2, 'rec_prob' : 0.9, 'mut_prob' : 0.2}
+        'pop_size' : 100, 'num_childs' : 10, 'rec_prob' : 0.9, 'mut_prob' : 0.005}
 
-max_iter = 100
-min_fitness = 0.9
-data_ite = 10
+max_iter = 1000
+min_fitness = 0.8
+data_ite = 1
 
 # initialise evolutionaru algorithm class
 ea = EA(**params)
@@ -30,6 +30,8 @@ data = ea.search(max_iter, min_fitness, data_ite)
 helper.plot(data, "Simple GA")
 
 print(ea.population)
+for i in ea.population:
+	print(i.fitness(), end=" ")
 
 ## Running modifie genetic algorithm
 

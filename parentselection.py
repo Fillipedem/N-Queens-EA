@@ -28,7 +28,7 @@ class BestParents(ParentSelection):
                 new_parents.append(population[i])
             else:
                 # sorted by fitness
-                sorted(new_parents, key=lambda x: x.fitness())
+                new_parents.sort(key=lambda x: x.fitness())
 
                 # for the rest of the parents remove the worst
                 for j in range(len(new_parents)):

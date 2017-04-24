@@ -127,7 +127,9 @@ class EA:
         for i in range(self.num_childs):
             new_son = self.representation.recombination(first, second)
 
-            self.offspring.append(new_son)
+            ## element is add only and only if its not present
+            if new_son not in self.population:
+                self.offspring.append(new_son)
 
         # adding population
         for c in self.population:

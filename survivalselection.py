@@ -24,7 +24,7 @@ class ReplaceWorst(SurvivalSelection):
         new_pop = []
 
         # sorted offspring by highest fitness
-        sorted(offspring, key=lambda x: x.fitness(), reverse=True)
+        offspring.sort(key=lambda x: x.fitness(), reverse=True)
 
         for i in range(num_population):
             new_pop.append(offspring[i])

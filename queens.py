@@ -3,12 +3,14 @@ from individual import Individual
 # random library
 from random import randint
 from random import shuffle
+# sqrt
+from math import sqrt, pow
 
 #
 from permutations import Permutation
 
 class Queens(Individual):
-    num_queens = 8
+    num_queens = 16
     mutate = Permutation.swap_mutation
     crossover = Permutation.one_point_crossover
 
@@ -31,7 +33,7 @@ class Queens(Individual):
                     ans = ans + 1 
 
         # return fitness value
-        return  1 / (ans + 1)
+        return  (1 / (ans + 1))**0.5
 
     def mutation(self):
         """
@@ -85,3 +87,15 @@ class Queens(Individual):
 
     def __str__(self):
         return str(self.genotype)
+
+
+    #
+    ## default operator
+    #
+
+    def __eq__(self, other):
+        """Override the default Equals behavior"""
+        if isinstance(other, self.__class__):
+            return self.genotype == other.genotype
+
+        return False

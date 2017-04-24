@@ -53,6 +53,6 @@ def plot(data, title):
 
     plt.title(title)
 
-    plt.legend("Teste")
+    plt.legend()
 
     plt.show()
