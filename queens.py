@@ -10,7 +10,7 @@ from math import sqrt, pow
 from permutations import Permutation
 
 class Queens(Individual):
-    num_queens = 16
+    num_queens = 8
     mutate = Permutation.swap_mutation
     crossover = Permutation.one_point_crossover
 
@@ -39,8 +39,9 @@ class Queens(Individual):
         """
         makes mutatation in the genotype
         """
-        Permutation.swap_mutation(self.genotype)
-
+        new_geno = Permutation.swap_mutation(self.genotype)
+       
+        return Queens(new_geno)
 
     def phenotype(self):
         """

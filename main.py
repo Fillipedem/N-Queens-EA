@@ -11,11 +11,12 @@ import sys
 
 # EV algorithm params
 params = {'repres' : Queens, 'p_selection' : BestParents, 's_selection' : ReplaceWorst,
-        'pop_size' : 100, 'num_childs' : 10, 'rec_prob' : 0.9, 'mut_prob' : 0.005}
+        'pop_size' : 10, 'num_childs' : 2, 'rec_prob' : 0.9, 'mut_prob' : 0.01}
 
-max_iter = 1000
-min_fitness = 0.8
+max_iter = 300
+min_fitness = 1.0
 data_ite = 1
+
 
 # initialise evolutionaru algorithm class
 ea = EA(**params)

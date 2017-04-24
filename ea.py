@@ -143,8 +143,13 @@ class EA:
         for i in range(len(self.offspring)):
             r = randint(0, 9)
 
-            if (r < self.mut_prob):
-                self.offspring[i].mutation()
+            if r < self.mut_prob:
+                if self.offspring[i].fitness() < 1:                    
+                    
+                    new_mutate = self.offspring[i].mutation()
+
+                    if new_mutate not in self.offspring:
+                        self.offspring.append(new_mutate)
 
 
     def __survivor_selector(self):

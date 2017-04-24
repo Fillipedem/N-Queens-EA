@@ -11,15 +11,19 @@ class Permutation():
     ## mutation operators
     @staticmethod
     def swap_mutation(genotype):
-        gen1 = randint(0, len(genotype) - 1)
+        new_gen = genotype.copy()
+
+        gen1 = randint(0, len(new_gen) - 1)
         gen2 = gen1
 
         # genotypeerate random number differente from previous one
         while gen1 == gen2:
-            gen2 = randint(0, len(genotype) - 1)
+            gen2 = randint(0, len(new_gen) - 1)
 
         # swap elements
-        genotype[gen1], genotype[gen2] = genotype[gen2], genotype[gen1]
+        new_gen[gen1], new_gen[gen2] = new_gen[gen2], new_gen[gen1]
+
+        return new_gen
 
     @staticmethod
     def scramble_mutation(genotype):
@@ -30,8 +34,12 @@ class Permutation():
         """
         swap every element of the geno in place
         """
+        new_geno = genotype.copy()
+
         for i in range(lenght / 2):
-            genotype[i], genotype[len(genotype) - i - 1] = genotype[len(genotype) - i - 1], genotype1[i] 
+            new_geno[i], new_geno[len(new_geno) - i - 1] = new_geno[len(new_geno) - i - 1], new_geno[i]
+
+        return new_geno
 
     ## recombination operators
     @staticmethod
