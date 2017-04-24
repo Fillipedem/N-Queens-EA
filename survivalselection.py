@@ -3,45 +3,54 @@ from random import uniform
 
 class SurvivalSelection:
 
-    def __init__():
-        pass
+    def __init__(self, elitism = 8):
+        self.elitism = 8
 
-    @staticmethod
-    def select_survivals(population, offspring, parents):
+    def set_elitism(self, elitism):
+        cls.elitism = 8
+
+    def select_survivals(self, population, offspring, parents):
         pass
 
 
 class ReplaceWorst(SurvivalSelection):
 
-    def __init__():
-        pass
+    def __init__(self, elitism):
+        super().__init__(elitism)
 
-    @staticmethod
-    def select_survivals(population, offspring, parents):
+    def select_survivals(self, population, offspring, parents):
         """
         remove the lowest element in population
         """
         new_pop = []
 
         for i in population:
-            offspring.append(i)
+            new_pop.append(i)
 
         # sorted offspring by highest fitness
-        offspring.sort(key=lambda x: x.fitness(), reverse=True)
+        new_pop.sort(key=lambda x: x.fitness())
 
-        for i in range(len(population)):
-            new_pop.append(offspring[i])
+        for i in range(len(offspring)):
+            ## check if is not in the population
+            if offspring[i] in new_pop:
+                continue
+
+            for j in range(len(population)):
+
+                if offspring[i].fitness() > new_pop[i].fitness():
+                    new_pop[i] = offspring[i]
+
+                    break
 
         return new_pop
 
 
 class ReplaceFittest(SurvivalSelection):
 
-    def __init__():
-        pass
+    def __init__(self, elitism):
+        super().__init__(elitism)
 
-    @staticmethod
-    def select_survivals(population, offspring, parents):
+    def select_survivals(self, population, offspring, parents):
         new_pop = []
 
         for i in offspring:
@@ -58,8 +67,8 @@ class ReplaceFittest(SurvivalSelection):
         for off in population:
             f = off.fitness()
 
-            fitness.append(1/(1 + f))
-            total += 1/(1 + f)
+            fitness.append(1/(1 + f*self.elitism))
+            total += 1/(1 + f*self.elitism)
 
         # adjust
         for i in range(len(fitness)):
@@ -89,9 +98,26 @@ class ReplaceFittest(SurvivalSelection):
 
 class ReplaceAge(SurvivalSelection):
 
-    def __init__():
-        pass
+    def __init__(self, elitism):
+        super().__init__(elitism)
 
-    @staticmethod
-    def select_survivals(population, offspring, parents):
-        pass
+    def select_survivals(self, population, offspring, parents):
+        new_pop = []
+
+        # adding the rest of the population
+        for i in population:
+            new_pop.append(i)
+
+
+        offspring.sort(key=lambda x: x.fitness(), reverse = True)
+        # remove parents
+        for i in range(len(parents)):
+            if parents[i] in new_pop:
+
+                for j in offspring:
+                    if j not in new_pop:
+                        new_pop.append(j)
+                        new_pop.remove(parents[i])
+                        break
+
+        return new_pop

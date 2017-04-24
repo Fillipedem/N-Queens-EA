@@ -44,9 +44,9 @@ def plot(data, title):
     """
 	plot results from a EV algorithm search
     """
-    plt.plot(data[0], data[1], label='Media')
-    plt.plot(data[0], data[2], label='Standard Variation')
-    plt.plot(data[0], data[3], label='Variance')
+    plt.plot(data[0], data[1], label='Média')
+    plt.plot(data[0], data[2], label='Desvio Padrão')
+    plt.plot(data[0], data[3], label='Variância')
 
     plt.xlabel('Iteration')
     plt.ylabel('Fitness')

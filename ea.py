@@ -143,14 +143,14 @@ class EA:
         """
         mutate an element of the offspring
         """
-        for i in range(len(self.population)):
+        for i in range(len(self.offspring)):
             r = random.uniform(0, 1)
 
             if r < self.mut_prob:
-                new_mutate = self.population[i].mutation()
+                new_mutate = self.offspring[i].mutation()
 
-                if new_mutate not in self.population or self.duplicate:
-                    self.population[i] = new_mutate
+                if new_mutate not in self.offspring or self.duplicate:
+                    self.offspring[i] = new_mutate
 
 
     def __survivor_selector(self):

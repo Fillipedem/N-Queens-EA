@@ -3,21 +3,19 @@ from random import uniform
 
 class ParentSelection:
 
-    def __init__():
+    def __init__(self):
         pass
 
-    @staticmethod
-    def select_parents(population, num_parents):
+    def select_parents(self, population, num_parents):
         pass
 
 
 class BestParents(ParentSelection):
 
-    def __init__():
-        pass
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    def select_parents(population, num_parents = 2):
+    def select_parents(self, population, num_parents = 2):
         new_parents = []
 
         # adding parents with the highest fitness
@@ -40,11 +38,10 @@ class BestParents(ParentSelection):
 
 class FittestBased(ParentSelection):
 
-    def __init__():
-        pass
+    def __init__(self):
+        super().__init__()
 
-    @staticmethod
-    def select_parents(population, num_parents = 2):
+    def select_parents(self, population, num_parents = 2):
         new_parents = []
 
         ## create fitness list
@@ -79,18 +76,16 @@ class FittestBased(ParentSelection):
 
 class Tournament(ParentSelection):
 
-    def __init__():
-        pass
+    def __init__(self):
+        super().__init__(elitism)
 
-    @staticmethod
-    def select_parents(population, num_parents = 2):
+    def select_parents(self, population, num_parents = 2):
         pass
 
 class Ranking(ParentSelection):
 
-    def __init__():
-        pass
+    def __init__(self):
+        super().__init__(elitism)
 
-    @staticmethod
-    def select_parents(population, num_parents = 2):
+    def select_parents(self, population, num_parents = 2):
         pass

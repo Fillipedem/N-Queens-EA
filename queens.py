@@ -32,6 +32,8 @@ class Queens(Individual):
                 if i != j and abs(i - j) == abs(self.genotype[i] - self.genotype[j]):
                     ans = ans + 1 
 
+        ans = ans / 2
+
         # return fitness value
         return  1 / (ans + 1)
 
